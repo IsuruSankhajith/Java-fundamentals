@@ -825,6 +825,376 @@ public class TestCustomException {
 
 In this example, `CustomException` is a user-defined exception that can be thrown and caught just like built-in exceptions.
 
+### Java Collections Framework
+
+#### **Overview of Collections**
+The **Java Collections Framework (JCF)** provides a unified architecture for storing and manipulating groups of objects. It includes interfaces, classes, and algorithms to work with different types of collections such as lists, sets, and maps.
+
+- **Collection**: The root interface for all the collections. It provides methods for adding, removing, and querying elements.
+- **Collections Class**: A utility class that provides static methods to operate on collections (like sorting, searching).
+
+#### **Key Interfaces in the Java Collections Framework**
+
+1. **List Interface**  
+   A **List** is an ordered collection that allows duplicate elements. It maintains insertion order and can be accessed by index.
+
+   - **Implementations**: `ArrayList`, `LinkedList`, `Vector`
+   - **Common Methods**:
+     - `add(E element)`: Adds an element to the list.
+     - `get(int index)`: Retrieves an element at the specified index.
+     - `remove(int index)`: Removes an element at the specified index.
+     - `size()`: Returns the number of elements in the list.
+
+2. **Set Interface**  
+   A **Set** is a collection that doesn't allow duplicate elements. It does not maintain the order of insertion (except for LinkedHashSet).
+
+   - **Implementations**: `HashSet`, `TreeSet`, `LinkedHashSet`
+   - **Common Methods**:
+     - `add(E element)`: Adds an element if it is not already present.
+     - `remove(Object o)`: Removes the specified element.
+     - `size()`: Returns the size of the set.
+
+3. **Map Interface**  
+   A **Map** is a collection of key-value pairs. Each key is unique, and it maps to a single value. It does not inherit from `Collection`.
+
+   - **Implementations**: `HashMap`, `TreeMap`, `LinkedHashMap`
+   - **Common Methods**:
+     - `put(K key, V value)`: Associates the specified value with the specified key.
+     - `get(Object key)`: Retrieves the value for the given key.
+     - `remove(Object key)`: Removes the key-value pair for the specified key.
+     - `size()`: Returns the number of key-value mappings.
+
+#### **Implementations of Collection Interfaces**
+
+1. **ArrayList**  
+   A resizable array implementation of the `List` interface. Provides fast random access but slow insertions and deletions in the middle.
+
+   - Backed by an array.
+   - Allows duplicates.
+   - Dynamic resizing.
+
+2. **LinkedList**  
+   A doubly linked list implementation of `List`. It allows for faster insertions and deletions compared to `ArrayList` but slower random access.
+
+   - Implements both `List` and `Deque` (supports FIFO and LIFO operations).
+   - Allows duplicates.
+
+3. **HashSet**  
+   Implements the `Set` interface, backed by a hash table. It doesn't maintain the order of elements and allows `null` values.
+
+   - Fast lookup and insertion.
+   - Does not allow duplicates.
+
+4. **TreeSet**  
+   Implements `Set`, but maintains a sorted order of elements. It's backed by a Red-Black Tree.
+
+   - Sorted order (natural or custom comparator).
+   - Does not allow duplicates.
+
+5. **HashMap**  
+   An implementation of the `Map` interface, backed by a hash table. Provides fast access to key-value pairs but doesn't guarantee order.
+
+   - Allows `null` keys and values.
+   - Unordered.
+
+6. **TreeMap**  
+   Implements `Map` and maintains the keys in sorted order. Backed by a Red-Black Tree.
+
+   - Keys are sorted.
+   - Does not allow `null` keys.
+
+#### **Iterators and Loops with Collections**
+
+- **Iterator**: An object that allows traversal over elements in a collection one by one. It supports methods like `hasNext()`, `next()`, and `remove()`.
+  - Example:
+    ```java
+    Iterator<String> iterator = list.iterator();
+    while(iterator.hasNext()) {
+        String element = iterator.next();
+        // Process element
+    }
+    ```
+
+- **Enhanced for Loop**: A simplified loop to iterate over collections or arrays.
+  - Example:
+    ```java
+    for (String element : list) {
+        // Process element
+    }
+    ```
+
+- **ListIterator**: A specialized iterator for lists that allows bidirectional traversal.
+  - Methods: `hasPrevious()`, `previous()`
+
+This section will help in understanding how Java collections work and how to use them efficiently in Java programs.
+
+Here’s a more detailed breakdown for your notes on **File Handling**, **Multithreading**, and **Java Input/Output (I/O)**:
+
+---
+
+### 8. **File Handling**
+Java provides a robust way to handle files through classes in the `java.io` package.
+
+#### a. **Reading and Writing Files**
+   - **Reading Files**
+     - `FileReader`: Used for reading character files.
+     - `BufferedReader`: Wraps `FileReader` for efficient reading of large files or multiple lines.
+     - Example: 
+       ```java
+       BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+       String line;
+       while ((line = br.readLine()) != null) {
+           System.out.println(line);
+       }
+       br.close();
+       ```
+
+   - **Writing Files**
+     - `FileWriter`: Used for writing to character files.
+     - `BufferedWriter`: Provides efficient writing by buffering output.
+     - Example:
+       ```java
+       BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"));
+       bw.write("Hello, World!");
+       bw.close();
+       ```
+
+#### b. **Handling Input and Output (I/O) Streams**
+   - **Byte Streams**: Handle I/O of raw binary data.
+     - `FileInputStream` and `FileOutputStream`: Used to read and write raw bytes.
+     - Example:
+       ```java
+       FileInputStream fis = new FileInputStream("input.bin");
+       int data;
+       while ((data = fis.read()) != -1) {
+           System.out.print((char) data);
+       }
+       fis.close();
+       ```
+
+   - **Character Streams**: Handle I/O of characters (text).
+     - `FileReader` and `FileWriter`: For character file I/O.
+
+#### c. **Serialization and Deserialization**
+   - **Serialization**: The process of converting an object into a byte stream to save to a file or transfer over a network.
+     - Implement `Serializable` interface to allow a class to be serialized.
+     - Example:
+       ```java
+       ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("object.ser"));
+       oos.writeObject(myObject);
+       oos.close();
+       ```
+
+   - **Deserialization**: The process of converting the byte stream back into an object.
+     - Example:
+       ```java
+       ObjectInputStream ois = new ObjectInputStream(new FileInputStream("object.ser"));
+       MyClass obj = (MyClass) ois.readObject();
+       ois.close();
+       ```
+
+---
+
+### 9. **Multithreading**
+Multithreading allows concurrent execution of two or more threads for maximum utilization of CPU.
+
+#### a. **Creating Threads**
+   - **Extending `Thread` Class**: Create a thread by extending the `Thread` class and overriding the `run()` method.
+     - Example:
+       ```java
+       class MyThread extends Thread {
+           public void run() {
+               System.out.println("Thread is running");
+           }
+       }
+       MyThread t1 = new MyThread();
+       t1.start();
+       ```
+
+   - **Implementing `Runnable` Interface**: Another way to create a thread by implementing the `Runnable` interface.
+     - Example:
+       ```java
+       class MyRunnable implements Runnable {
+           public void run() {
+               System.out.println("Thread is running");
+           }
+       }
+       Thread t1 = new Thread(new MyRunnable());
+       t1.start();
+       ```
+
+#### b. **Thread Lifecycle**
+   - **New**: Thread is created but not yet started.
+   - **Runnable**: After `start()` is called, the thread is ready to run.
+   - **Running**: When the thread is actively executing.
+   - **Blocked/Waiting**: When the thread is waiting for some condition or resources.
+   - **Terminated**: When the thread completes execution.
+
+#### c. **Synchronization**
+   - Used to prevent thread interference and consistency problems when multiple threads try to access shared resources.
+   - **Synchronized block/method**:
+     ```java
+     synchronized(this) {
+         // critical section
+     }
+     ```
+
+#### d. **Inter-thread Communication**
+   - Threads can communicate using methods like `wait()`, `notify()`, and `notifyAll()`.
+   - Example:
+     ```java
+     synchronized(obj) {
+         obj.wait();   // thread waits
+         obj.notify(); // wakes up waiting thread
+     }
+     ```
+
+---
+
+### 10. **Java Input/Output (I/O)**
+Java provides powerful I/O classes in the `java.io` package for handling input and output operations.
+
+#### a. **Streams (Byte Streams, Character Streams)**
+   - **Byte Streams**: Handle binary data (e.g., images, files).
+     - `InputStream` and `OutputStream`: Parent classes for byte-based I/O.
+     - Example:
+       ```java
+       FileInputStream fis = new FileInputStream("input.txt");
+       FileOutputStream fos = new FileOutputStream("output.txt");
+       int data;
+       while ((data = fis.read()) != -1) {
+           fos.write(data);
+       }
+       fis.close();
+       fos.close();
+       ```
+
+   - **Character Streams**: Handle character data (text).
+     - `Reader` and `Writer`: Parent classes for character-based I/O.
+
+#### b. **Reading and Writing Files**
+   - Reading and writing character-based files using `FileReader` and `FileWriter`.
+   - Buffered reading and writing using `BufferedReader` and `BufferedWriter`.
+
+#### c. **Buffering**
+   - **Buffered Streams**: Improve performance by reducing the number of I/O operations.
+   - Example of buffered input:
+     ```java
+     BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+     String line;
+     while ((line = br.readLine()) != null) {
+         System.out.println(line);
+     }
+     br.close();
+     ```
+
+  Sure! Here's an explanation for each of the Java 8 features and best practices:
+
+### **11. Java 8 Features**
+
+**Lambda Expressions:**
+- **Definition:** Lambda expressions provide a clear and concise way to represent one method interface using an expression. They are often used to implement functional interfaces.
+- **Syntax:** `(parameters) -> expression` or `(parameters) -> { statements }`
+- **Example:** `(a, b) -> a + b` defines a lambda expression that takes two parameters and returns their sum.
+
+**Functional Interfaces:**
+- **Definition:** An interface with exactly one abstract method. They can have multiple default or static methods.
+- **Usage:** Functional interfaces are used as the basis for lambda expressions.
+- **Example:** `@FunctionalInterface` annotation can be used to indicate that an interface is intended to be functional.
+  ```java
+  @FunctionalInterface
+  public interface MyFunctionalInterface {
+      void singleAbstractMethod();
+  }
+  ```
+
+**Streams API:**
+- **Definition:** The Streams API allows you to process sequences of elements (e.g., collections) in a functional style.
+- **Key Methods:**
+  - `filter()`: Filters elements based on a predicate.
+  - `map()`: Transforms elements using a function.
+  - `reduce()`: Aggregates elements using a binary operator.
+  - `collect()`: Collects results into a collection.
+- **Example:**
+  ```java
+  List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+  List<String> filteredNames = names.stream()
+                                    .filter(name -> name.startsWith("A"))
+                                    .collect(Collectors.toList());
+  ```
+
+**Optional Class:**
+- **Definition:** A container object which may or may not contain a value. It's used to avoid `null` checks and `NullPointerException`.
+- **Key Methods:**
+  - `of()`: Creates an Optional with a non-null value.
+  - `empty()`: Creates an empty Optional.
+  - `isPresent()`: Checks if a value is present.
+  - `ifPresent()`: Executes a block of code if a value is present.
+  - `orElse()`: Provides a default value if no value is present.
+- **Example:**
+  ```java
+  Optional<String> optionalName = Optional.of("Alice");
+  String name = optionalName.orElse("Default Name");
+  ```
+
+**Method References:**
+- **Definition:** A shorthand notation of a lambda expression to call a method. It allows for cleaner and more readable code.
+- **Syntax:** `ClassName::methodName` or `instance::methodName`
+- **Example:**
+  ```java
+  List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+  names.forEach(System.out::println);
+  ```
+
+**Default Methods:**
+- **Definition:** Methods in interfaces that have a body. They provide default implementations that can be overridden by implementing classes.
+- **Usage:** Allows you to add new methods to interfaces without breaking existing implementations.
+- **Example:**
+  ```java
+  public interface MyInterface {
+      default void defaultMethod() {
+          System.out.println("This is a default method.");
+      }
+  }
+  ```
+
+### **12. Java Best Practices**
+
+**Code Conventions:**
+- **Definition:** Guidelines and rules for writing code to ensure readability and consistency.
+- **Key Points:**
+  - Follow naming conventions (e.g., camelCase for variables, PascalCase for classes).
+  - Use proper indentation and spacing.
+  - Keep methods short and focused on a single task.
+  - Comment code where necessary to explain complex logic.
+
+**Exception Handling Best Practices:**
+- **Definition:** Guidelines for effectively handling exceptions to ensure robustness and maintainability.
+- **Key Points:**
+  - Use specific exceptions rather than generic ones.
+  - Avoid catching `Throwable` or `Exception` unless absolutely necessary.
+  - Always provide meaningful messages in exceptions.
+  - Don’t swallow exceptions; always handle them appropriately or log them.
+  - Use `try-with-resources` for automatic resource management.
+
+**Effective Use of Collections:**
+- **Definition:** Best practices for using Java Collections Framework efficiently.
+- **Key Points:**
+  - Choose the right collection type for your needs (e.g., `ArrayList` for fast access, `LinkedList` for frequent insertions/removals).
+  - Use generics to ensure type safety.
+  - Understand and use the differences between `List`, `Set`, and `Map`.
+  - Use immutable collections where applicable.
+
+**Writing Clean and Maintainable Code:**
+- **Definition:** Practices for writing code that is easy to read, understand, and maintain.
+- **Key Points:**
+  - Follow Single Responsibility Principle (SRP) to ensure classes and methods have one reason to change.
+  - Write self-explanatory code by using descriptive names and breaking down complex logic into smaller methods.
+  - Refactor code regularly to improve readability and remove redundancy.
+  - Use unit tests to ensure code correctness and facilitate refactoring.
+
+This structure should give you a solid foundation for understanding and applying Java 8 features and best practices effectively.
+
 1. Clone the repository:
     ```bash
     git clone https://github.com/your-username/java-fundamentals.git
